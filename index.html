@@ -85,54 +85,61 @@
   <button onclick="extractIDs()">▶ Extract Upload Key</button>
 
   <div id="outputContainer" style="display: none;">
-    <br><br>
-    <h3>Extracted Upload Keys:</h3>
-    <br>
-    <div id="output"></div>
-    <br>
-    <button onclick="copyIDs()">📋 Copy Upload Keys</button>
-  </div>
+  <br><br>
+  <h3>Extracted Upload Keys:</h3>
+  <br>
+  <div id="output"></div>
+  <p id="count" style="margin-top:10px; font-weight:bold; color:#00ffea;"></p>
+  <br>
+  <button onclick="copyIDs()">📋 Copy Upload Keys</button>
+</div>
 
-  <script>
-    let extractedIDs = [];
+<script>
+  let extractedIDs = [];
 
-    function extractIDs() {
-      const text = document.getElementById("inputText").value;
+  function extractIDs() {
+    const text = document.getElementById("inputText").value;
 
-      // Match format like: upload_1750832365089_dhkj9kjb
-      const idRegex = /\bupload_\d+_[a-zA-Z0-9]+\b/g;
+    // Match format like: upload_1750832365089_dhkj9kjb
+    const idRegex = /\bupload_\d+_[a-zA-Z0-9]+\b/g;
 
-      extractedIDs = text.match(idRegex) || [];
+    extractedIDs = text.match(idRegex) || [];
 
-      const outputDiv = document.getElementById("output");
-      const outputContainer = document.getElementById("outputContainer");
+    const outputDiv = document.getElementById("output");
+    const outputContainer = document.getElementById("outputContainer");
+    const countDisplay = document.getElementById("count");
 
-      if (extractedIDs.length > 0) {
-        outputDiv.textContent = extractedIDs.join(", ");
-      } else {
-        outputDiv.textContent = "⚠ No ID codes found.";
-      }
-
-      outputContainer.style.display = "block";
+    if (extractedIDs.length > 0) {
+      outputDiv.textContent = extractedIDs.join(", ");
+      countDisplay.textContent = "🔢 Total Upload Keys: " + extractedIDs.length;
+    } else {
+      outputDiv.textContent = "⚠ No ID codes found.";
+      countDisplay.textContent = "";
     }
 
-    function copyIDs() {
-      if (extractedIDs.length === 0) {
-        alert("No ID codes to copy.");
-        return;
-      }
+    outputContainer.style.display = "block";
+  }
 
-      const textToCopy = extractedIDs.join(", ");
-
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          alert("✔ ID codes copied to clipboard!");
-        })
-        .catch(err => {
-          alert("Failed to copy text: " + err);
-        });
+  function copyIDs() {
+    if (extractedIDs.length === 0) {
+      alert("No ID codes to copy.");
+      return;
     }
-  </script>
+
+    const textToCopy = extractedIDs.join(", ");
+
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        alert("✔ ID codes copied to clipboard!");
+      })
+      .catch(err => {
+        alert("Failed to copy text: " + err);
+      });
+  }
+</script>
+
+
+  
 
 </body>
 </html>
