@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Extract & Copy ID Codes (Comma Separated)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: radial-gradient(circle at top, #0d0d0d, #000);
+      color: #00ffea;
+      text-align: center;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-shadow: 0 0 0px #00faff, 0 0 10px #00ffee;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin: 15px 0;
+      background: #111;
+      color: #00ffea;
+      border: 2px solid #00ffea;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 12px;
+      box-shadow: 0 0 10px #00ffee;
+      line-height: 2;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(145deg, #00ffea, #0077ff);
+      color: #000;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px #00ffee, 0 0 20px #0077ff inset;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffee, 0 0 40px #0077ff inset;
+    }
+
+    #outputContainer {
+      margin-top: 20px;
+    }
+
+    #output {
+      margin-top: 15px;
+      padding: 15px;
+      border: 2px solid #00ffea;
+      background-color: #111;
+      color: #00ffea;
+      font-size: 12px;
+      white-space: pre-wrap;
+      text-align: left;
+      box-shadow: 0 0 15px #00ffee;
+      line-height: 2;
+    }
+  </style>
+</head>
+<body>
+
+<br><br><br>
+ <h1>🎮 4F Gabriel Sub Tool 🎮</h1>
+<br><br>
+  <h3> Extract & Copy Upload Keys </h3>
+
+  <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+  <br>
+  <button onclick="extractIDs()">▶ Extract Upload Key</button>
+
+  <div id="outputContainer" style="display: none;">
+    <br><br>
+    <h3>Extracted Upload Keys:</h3>
+    <br>
+    <div id="output"></div>
+    <br>
+    <button onclick="copyIDs()">📋 Copy Upload Keys</button>
+  </div>
+
+  <script>
+    let extractedIDs = [];
+
+    function extractIDs() {
+      const text = document.getElementById("inputText").value;
+
+      // Match format like: upload_1750832365089_dhkj9kjb
+      const idRegex = /\bupload_\d+_[a-zA-Z0-9]+\b/g;
+
+      extractedIDs = text.match(idRegex) || [];
+
+      const outputDiv = document.getElementById("output");
+      const outputContainer = document.getElementById("outputContainer");
+
+      if (extractedIDs.length > 0) {
+        outputDiv.textContent = extractedIDs.join(", ");
+      } else {
+        outputDiv.textContent = "⚠ No ID codes found.";
+      }
+
+      outputContainer.style.display = "block";
+    }
+
+    function copyIDs() {
+      if (extractedIDs.length === 0) {
+        alert("No ID codes to copy.");
+        return;
+      }
+
+      const textToCopy = extractedIDs.join(", ");
+
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          alert("✔ ID codes copied to clipboard!");
+        })
+        .catch(err => {
+          alert("Failed to copy text: " + err);
+        });
+    }
+  </script>
+
+</body>
+</html>
